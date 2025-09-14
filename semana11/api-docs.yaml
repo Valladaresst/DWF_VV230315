@@ -1,0 +1,117 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /posts/{id}:
+    get:
+      tags:
+      - post-controller
+      operationId: findPostById
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PostResponse"
+    put:
+      tags:
+      - post-controller
+      operationId: updatePost
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PostResponse"
+    delete:
+      tags:
+      - post-controller
+      operationId: deletePost
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "204":
+          description: No Content
+  /posts:
+    get:
+      tags:
+      - post-controller
+      operationId: findAllPost
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PostResponse"
+    post:
+      tags:
+      - post-controller
+      operationId: savePost
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PostRequest"
+        required: true
+      responses:
+        "201":
+          description: Created
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/PostResponse"
+components:
+  schemas:
+    PostRequest:
+      required:
+      - postDate
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        postDate:
+          type: string
+          format: date
+    PostResponse:
+      type: object
+      properties:
+        title:
+          type: string
+        postDate:
+          type: string
+          format: date
